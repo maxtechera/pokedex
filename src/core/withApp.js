@@ -5,11 +5,13 @@ const withApp = Component =>
     constructor(props) {
       super(props);
       this.state = {
-        trainer: null,
+        trainer: { name: "Ash" },
         name: "",
         password: "",
+        pokemons: [],
       };
     }
+
     doLogin = () => {
       const { name } = this.state;
       if (name === "Ash") {

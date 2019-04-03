@@ -2,18 +2,26 @@
 import React from "react";
 import styled from "styled-components";
 
-type Props = {};
-const PokemonList = ({  }: Props) => {
-  const pokemons = [
-    { id: 1, name: "Bulbasur", image: "https://assets.pokemon.com/assets/cms2/img/pokedex/full/002.png" },
-  ];
+type Props = {
+  pokemons?: Array,
+};
+
+function pad(num, size) {
+  var s = num + "";
+  while (s.length < size) s = "0" + s;
+  return s;
+}
+
+const PokemonList = ({ pokemons = [] }: Props) => {
   return (
     <Container>
       <List>
-        <Item>
-          <Image src={pokemons[0].image} />
-          <Name>{pokemons[0].name}</Name>
-        </Item>
+        {pokemons.map((pokemon, idx) => (
+          <Item>
+            <Image src={`https://assets.pokemon.com/assets/cms2/img/pokedex/full/${pad(idx + 1, 3)}.png`} />
+            <Name>{`#${pad(idx + 1, 3)} ${pokemon.name}`}</Name>
+          </Item>
+        ))}
       </List>
     </Container>
   );
@@ -28,7 +36,7 @@ const List = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   justify-items: end;
-  padding: 16px 16px;
+  padding: 8px 8px;
   grid-column-gap: 8px;
   grid-row-gap: 8px;
 `;
@@ -37,6 +45,7 @@ const Item = styled.div`
   width: 100%;
   border-radius: 5px;
   padding: 8px;
+  text-transform: capitalize;
   :first-child {
     background: rgba(255, 255, 255, 0.3);
   }
@@ -50,7 +59,7 @@ const Image = styled.img`
 
 const Name = styled.p`
   color: white;
-  font-size: 16px;
+  font-size: 15px;
   text-align: center;
   width: 100%;
 `;
