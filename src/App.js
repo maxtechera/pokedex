@@ -1,15 +1,21 @@
 import React, { Component } from "react";
 import styled from "styled-components";
-import Pokedex from "./components/Pokedex";
-import "./App.css";
+import { Provider } from "react-redux";
+
 import withApp from "./core/withApp";
+import { store } from "./core/redux";
+import Pokedex from "./components/Pokedex";
+
+import "./App.css";
 
 class App extends Component {
   render() {
     return (
-      <Container>
-        <Pokedex {...this.props} />
-      </Container>
+      <Provider store={store}>
+        <Container>
+          <Pokedex {...this.props} />
+        </Container>
+      </Provider>
     );
   }
 }

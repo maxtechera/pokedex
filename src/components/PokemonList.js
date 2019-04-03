@@ -1,7 +1,7 @@
 // @flow
 import React from "react";
 import styled from "styled-components";
-
+import withPokemons from "../core/withPokemons";
 type Props = {
   pokemons?: Array,
 };
@@ -64,4 +64,4 @@ const Name = styled.p`
   width: 100%;
 `;
 
-export default PokemonList;
+export default withPokemons(PokemonList);

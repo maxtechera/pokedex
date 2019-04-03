@@ -1,24 +1,19 @@
 import React from "react";
+import { connect } from "react-redux";
+import { compose } from "recompose";
+import { setPokemons } from "./redux";
+
 import getPokemons from "./getPokemons";
 
 const withPokemons = Component =>
   class extends React.Component {
-    constructor(props) {
-      super(props);
-      this.state = {
-        pokemons: [],
-      };
-    }
-
     componentDidMount() {
-      getPokemons({ limit: 151 }).then(pokemons => this.setState({ pokemons }));
+      getPokemons({ limit: 151 }).then(pokemons => this.props.setPokemons(pokemons));
     }
 
     render() {
-      const { pokemons } = this.state;
       return (
         <Component
-          pokemons={pokemons}
           //Pass all props received by the hoc
           {...this.props}
         />
@@ -26,4 +21,14 @@ const withPokemons = Component =>
     }
   };
 
-export default withPokemons;
+export default compose(
+  connect(
+    state => ({
+      pokemons: state.pokemons,
+    }),
+    (dispatch, store) => ({
+      setPokemons: pokemons => dispatch(setPokemons(pokemons)),
+    }),
+  ),
+  withPokemons,
+);
