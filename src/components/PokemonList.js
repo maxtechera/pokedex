@@ -12,12 +12,12 @@ function pad(num, size) {
   return s;
 }
 
-const PokemonList = ({ setSelectedId, pokemons = [] }: Props) => {
+const PokemonList = ({ selectedId, setSelectedId, pokemons = [] }: Props) => {
   return (
     <Container>
       <List>
         {pokemons.map((pokemon, idx) => (
-          <Item onClick={() => setSelectedId(idx + 1)}>
+          <Item selected={selectedId == idx + 1} onClick={() => setSelectedId(idx + 1)}>
             <Image src={`https://assets.pokemon.com/assets/cms2/img/pokedex/full/${pad(idx + 1, 3)}.png`} />
             <Name>{`#${pad(idx + 1, 3)} ${pokemon.name}`}</Name>
           </Item>
@@ -46,9 +46,11 @@ const Item = styled.div`
   border-radius: 5px;
   padding: 8px;
   text-transform: capitalize;
-  :first-child {
+  ${props =>
+    props.selected &&
+    `
     background: rgba(255, 255, 255, 0.3);
-  }
+  `}
 `;
 
 const Image = styled.img`

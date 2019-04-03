@@ -25,6 +25,7 @@ export default compose(
   connect(
     state => ({
       pokemons: state.pokemons,
+      selectedId: state.selectedId,
     }),
     (dispatch, store) => ({
       setPokemons: pokemons => dispatch(setPokemons(pokemons)),
