@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { compose } from "recompose";
-import { setPokemons } from "./redux";
+import { setPokemons, setSelectedId } from "./redux";
 
 import getPokemons from "./getPokemons";
 
@@ -28,6 +28,7 @@ export default compose(
     }),
     (dispatch, store) => ({
       setPokemons: pokemons => dispatch(setPokemons(pokemons)),
+      setSelectedId: id => dispatch(setSelectedId(id)),
     }),
   ),
   withPokemons,

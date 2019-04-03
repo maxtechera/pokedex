@@ -12,12 +12,12 @@ function pad(num, size) {
   return s;
 }
 
-const PokemonList = ({ pokemons = [] }: Props) => {
+const PokemonList = ({ setSelectedId, pokemons = [] }: Props) => {
   return (
     <Container>
       <List>
         {pokemons.map((pokemon, idx) => (
-          <Item>
+          <Item onClick={() => setSelectedId(idx + 1)}>
             <Image src={`https://assets.pokemon.com/assets/cms2/img/pokedex/full/${pad(idx + 1, 3)}.png`} />
             <Name>{`#${pad(idx + 1, 3)} ${pokemon.name}`}</Name>
           </Item>
