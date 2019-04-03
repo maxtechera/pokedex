@@ -2,6 +2,7 @@ import { createStore } from "redux";
 
 const initialState = {
   pokemons: [],
+  selectedId: 13,
   selectedPokemon: null,
 };
 
@@ -13,8 +14,8 @@ export const setPokemons = pokemons => ({
   payload: { pokemons },
 });
 
-export const selectedPokemon = pokemon => ({
-  type: SET_POKEMONS,
+export const selectPokemon = pokemon => ({
+  type: SELECT_POKEMON,
   payload: { pokemon },
 });
 
