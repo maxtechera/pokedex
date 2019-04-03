@@ -5,14 +5,6 @@ import withPokemonDetail from "../core/withPokemonDetail";
 import Logo from "./Logo";
 type Props = {};
 const PokemonDetail = ({ pokemon }: Props) => {
-  // const pokemon = {
-  //   id: 1,
-  //   name: "Bulbasur",
-  //   image: "https://assets.pokemon.com/assets/cms2/img/pokedex/full/002.png",
-  //   description:
-  //     "Bulbasaur can be seen napping in bright sunlight. There is a seed on its back. By soaking up the sun's rays, the seed grows progressively larger.",
-  // };
-  console.log("Pokemon", { pokemon });
   if (!pokemon) return <Logo />;
   return (
     <Container>
@@ -22,7 +14,7 @@ const PokemonDetail = ({ pokemon }: Props) => {
         <Number>{`# ${pokemon.id}`}</Number>
       </Row>
       <Row>
-        <Description>{pokemon.description}</Description>
+        <Description>{pokemon.flavor_text_entries.find(x => x.language.name == "en").flavor_text}</Description>
       </Row>
     </Container>
   );
