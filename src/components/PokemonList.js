@@ -34,7 +34,7 @@ const Container = styled.div`
 
 const List = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   justify-items: end;
   padding: 8px 8px;
   grid-column-gap: 8px;
@@ -46,11 +46,22 @@ const Item = styled.div`
   border-radius: 5px;
   padding: 8px;
   text-transform: capitalize;
+  transition: 0.3s;
+  background: rgba(255, 255, 255, 0);
   ${props =>
     props.selected &&
     `
     background: rgba(255, 255, 255, 0.3);
   `}
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+    ${props =>
+      props.selected &&
+      `
+    background: rgba(255, 255, 255, 0.3);
+  `}
+  }
 `;
 
 const Image = styled.img`
