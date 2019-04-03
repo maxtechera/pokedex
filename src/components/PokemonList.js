@@ -37,6 +37,9 @@ const Item = styled.div`
   width: 100%;
   border-radius: 5px;
   padding: 8px;
+  :first-child {
+    background: rgba(255, 255, 255, 0.3);
+  }
 `;
 
 const Image = styled.img`

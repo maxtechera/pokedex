@@ -1,12 +1,31 @@
 // @flow
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Login from "./Login";
 import PokemonDetail from "./PokemonDetail";
 import PokemonList from "./PokemonList";
 import pokemonLogo from "../poke.png";
-
 type Props = {};
+
+export const Pokedex = ({ trainer, name, password, setName, setPassword, doLogin }: Props) => {
+  return (
+    <Container>
+      <LeftContainer>
+        <DisplayContainer>
+          {trainer ? (
+            <PokemonList />
+          ) : (
+            <Login name={name} password={password} setName={setName} setPassword={setPassword} doLogin={doLogin} />
+          )}
+        </DisplayContainer>
+      </LeftContainer>
+      <InnerContainer>
+        <DisplayContainer>{trainer ? <PokemonDetail /> : <Logo src={pokemonLogo} />}</DisplayContainer>
+      </InnerContainer>
+    </Container>
+  );
+};
+
 export const PokedexLogin = ({  }: Props) => (
   <Container>
     <LeftContainer>
@@ -15,21 +34,6 @@ export const PokedexLogin = ({  }: Props) => (
     <InnerContainer>
       <DisplayContainer>
         <Logo src={pokemonLogo} />
-      </DisplayContainer>
-    </InnerContainer>
-  </Container>
-);
-
-export const Pokedex = ({  }: Props) => (
-  <Container>
-    <LeftContainer>
-      <DisplayContainer>
-        <PokemonList />
-      </DisplayContainer>
-    </LeftContainer>
-    <InnerContainer>
-      <DisplayContainer>
-        <PokemonDetail />
       </DisplayContainer>
     </InnerContainer>
   </Container>
