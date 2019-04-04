@@ -3,17 +3,22 @@ import React from "react";
 import styled from "styled-components";
 
 type Props = {};
-const PokemonDetail = ({  }: Props) => (
+
+const Login = ({ name, password, setName, setPassword, doLogin }) => (
   <Container>
     <Inner>
       <Title>React Pokédex</Title>
-      <Input placeholder="Trainer name" />
-      <Input placeholder="Password" type="password" />
-      <Button>Login</Button>
+      <Input placeholder="Trainer name" value={name} onChange={evt => setName(evt.target.value)} />
+      <Input
+        placeholder="Password"
+        type="password"
+        value={password}
+        onChange={evt => setPassword(evt.target.value)}
+      />
+      <Button onClick={doLogin}>Login</Button>
     </Inner>
   </Container>
 );
-
 const Container = styled.div`
   width: 100%;
   height: 100%;
@@ -61,4 +66,4 @@ const Button = styled.button`
   margin-top: 16px;
 `;
 
-export default PokemonDetail;
+export default Login;

@@ -1,33 +1,44 @@
 // @flow
 import React from "react";
 import styled from "styled-components";
+import withPokemon from "../core/withPokemon";
+import Logo from "./Logo";
 
 type Props = {};
-const PokemonDetail = ({  }: Props) => {
-  const pokemon = {
-    id: 1,
-    name: "Bulbasur",
-    image: "https://assets.pokemon.com/assets/cms2/img/pokedex/full/002.png",
-    description:
-      "Bulbasaur can be seen napping in bright sunlight. There is a seed on its back. By soaking up the sun's rays, the seed grows progressively larger.",
-  };
+const PokemonDetail = ({ selectedPokemon, selectedId, language = "es" }: Props) => {
+  console.log("PokemonDetail", selectedId);
+  if (!selectedPokemon) return <Logo />;
   return (
     <Container>
-      <PokemonImage src={pokemon.image} />
+      <PokemonImage
+        src={`https://assets.pokemon.com/assets/cms2/img/pokedex/full/${pad(
+          selectedPokemon.id,
+          3
+        )}.png`}
+      />
       <Row>
-        <Name>{pokemon.name}</Name>
-        <Number>{`# ${pokemon.id}`}</Number>
+        <Name>{selectedPokemon.name}</Name>
+        <Number>{`# ${selectedPokemon.id}`}</Number>
       </Row>
       <Row>
-        <Description>{pokemon.description}</Description>
+        <Description>
+          {selectedPokemon.flavor_text_entries.find(x => x.language.name == language).flavor_text}
+        </Description>
       </Row>
     </Container>
   );
 };
+
+function pad(n, width, z) {
+  z = z || "0";
+  n = n + "";
+  return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
+}
 const Name = styled.h2`
   font-size: 30px;
   color: white;
   margin: 0;
+  text-transform: capitalize;
 `;
 const Number = styled.h3`
   color: white;
@@ -58,4 +69,4 @@ const Row = styled.div`
   justify-content: space-between;
   margin-bottom: 8px;
 `;
-export default PokemonDetail;
+export default withPokemon(PokemonDetail);

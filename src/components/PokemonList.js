@@ -1,19 +1,23 @@
 // @flow
 import React from "react";
 import styled from "styled-components";
+import withPokemons from "../core/withPokemons";
 
 type Props = {};
-const PokemonList = ({  }: Props) => {
-  const pokemons = [
-    { id: 1, name: "Bulbasur", image: "https://assets.pokemon.com/assets/cms2/img/pokedex/full/002.png" },
-  ];
+const PokemonList = ({ pokemons = [], selectedId, setSelectedId }: Props) => {
   return (
     <Container>
       <List>
-        <Item>
-          <Image src={pokemons[0].image} />
-          <Name>{pokemons[0].name}</Name>
-        </Item>
+        {pokemons.map(pokemon => (
+          <Item
+            selected={selectedId == pokemon.id}
+            key={pokemon.id}
+            onClick={() => setSelectedId(pokemon.id)}
+          >
+            <Image src={pokemon.image} />
+            <Name>{pokemon.name}</Name>
+          </Item>
+        ))}
       </List>
     </Container>
   );
@@ -26,7 +30,7 @@ const Container = styled.div`
 
 const List = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   justify-items: end;
   padding: 16px 16px;
   grid-column-gap: 8px;
@@ -37,6 +41,16 @@ const Item = styled.div`
   width: 100%;
   border-radius: 5px;
   padding: 8px;
+  transition: 0.3s;
+  background: rgba(255, 255, 255, 0);
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+  ${props =>
+    props.selected &&
+    `
+  background:rgba(255,255,255,0.3);
+  `}
 `;
 
 const Image = styled.img`
@@ -50,6 +64,7 @@ const Name = styled.p`
   font-size: 16px;
   text-align: center;
   width: 100%;
+  text-transform: capitalize;
 `;
 
-export default PokemonList;
+export default withPokemons(PokemonList);

@@ -5,31 +5,39 @@ import Login from "./Login";
 import PokemonDetail from "./PokemonDetail";
 import PokemonList from "./PokemonList";
 import pokemonLogo from "../poke.png";
+import withLogin from "../core/withLogin";
 
 type Props = {};
-export const PokedexLogin = ({  }: Props) => (
-  <Container>
-    <LeftContainer>
-      <Login />
-    </LeftContainer>
-    <InnerContainer>
-      <DisplayContainer>
-        <Logo src={pokemonLogo} />
-      </DisplayContainer>
-    </InnerContainer>
-  </Container>
-);
 
-export const Pokedex = ({  }: Props) => (
+export const Pokedex = ({
+  trainer,
+  name,
+  password,
+  setName,
+  setPassword,
+  doLogin,
+  selectedId,
+  setSelectedId,
+}: Props) => (
   <Container>
     <LeftContainer>
       <DisplayContainer>
-        <PokemonList />
+        {trainer ? (
+          <PokemonList setSelectedId={setSelectedId} selectedId={selectedId} />
+        ) : (
+          <Login
+            name={name}
+            password={password}
+            setName={setName}
+            setPassword={setPassword}
+            doLogin={doLogin}
+          />
+        )}
       </DisplayContainer>
     </LeftContainer>
     <InnerContainer>
       <DisplayContainer>
-        <PokemonDetail />
+        {trainer ? <PokemonDetail selectedId={selectedId} /> : <Logo />}
       </DisplayContainer>
     </InnerContainer>
   </Container>
@@ -82,4 +90,4 @@ const Logo = styled.img`
   margin: auto;
 `;
 
-export default Pokedex;
+export default withLogin(Pokedex);
