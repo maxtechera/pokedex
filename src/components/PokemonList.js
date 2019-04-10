@@ -2,11 +2,13 @@
 import React from "react";
 import styled from "styled-components";
 import withPokemons from "../core/withPokemons";
-
+import { connect } from "react-redux";
+import { logout } from "../redux";
 type Props = {};
-const PokemonList = ({ pokemons = [], selectedId, setSelectedId }: Props) => {
+const PokemonList = ({ doLogout, pokemons = [], selectedId, setSelectedId }: Props) => {
   return (
     <Container>
+      <button onClick={doLogout}>Logout</button>
       <List>
         {pokemons.map(pokemon => (
           <Item
@@ -67,4 +69,9 @@ const Name = styled.p`
   text-transform: capitalize;
 `;
 
-export default withPokemons(PokemonList);
+export default connect(
+  null,
+  dispatch => ({
+    doLogout: () => dispatch(logout()),
+  })
+)(withPokemons(PokemonList));
