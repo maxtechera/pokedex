@@ -1,14 +1,20 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import Pokedex from "./components/Pokedex";
+
+import { Provider } from "react-redux";
+
 import "./App.css";
+import { store } from "./redux";
 
 class App extends Component {
   render() {
     return (
-      <Container>
-        <Pokedex />
-      </Container>
+      <Provider store={store}>
+        <Container>
+          <Pokedex />
+        </Container>
+      </Provider>
     );
   }
 }

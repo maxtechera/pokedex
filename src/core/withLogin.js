@@ -1,4 +1,7 @@
 import React from "react";
+import { connect } from "react-redux";
+import { compose } from "recompose";
+import { login } from "../redux";
 
 const withLogin = Component =>
   class extends React.Component {
@@ -8,19 +11,15 @@ const withLogin = Component =>
         name: "",
         password: "",
         selectedId: 1,
-        trainer: {
-          name: "Ash",
-        },
       };
     }
     render() {
-      const { name, password, trainer, selectedId } = this.state;
+      const { name, password, selectedId } = this.state;
       console.log("Selected", selectedId);
       return (
         <Component
           name={name}
           password={password}
-          trainer={trainer}
           selectedId={selectedId}
           setName={name => this.setState({ name })}
           setPassword={password => this.setState({ password })}
@@ -28,10 +27,8 @@ const withLogin = Component =>
           doLogin={() => {
             if (name == "Ash") {
               console.log("Success!!");
-              this.setState({
-                trainer: {
-                  name,
-                },
+              this.props.dispatchLogin({
+                name,
               });
             }
           }}
@@ -42,4 +39,14 @@ const withLogin = Component =>
     }
   };
 
-export default withLogin;
+const mapDispatchToProps = dispatch => ({
+  dispatchLogin: trainer => dispatch(login(trainer)),
+});
+
+export default compose(
+  connect(
+    null,
+    mapDispatchToProps
+  ),
+  withLogin
+);

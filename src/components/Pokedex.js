@@ -1,6 +1,8 @@
 // @flow
 import React from "react";
 import styled from "styled-components";
+import { connect } from "react-redux";
+
 import Login from "./Login";
 import PokemonDetail from "./PokemonDetail";
 import PokemonList from "./PokemonList";
@@ -90,4 +92,8 @@ const Logo = styled.img`
   margin: auto;
 `;
 
-export default withLogin(Pokedex);
+const mapStateToProps = state => ({
+  trainer: state.trainer,
+});
+
+export default connect(mapStateToProps)(withLogin(Pokedex));
