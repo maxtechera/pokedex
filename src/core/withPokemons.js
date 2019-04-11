@@ -1,37 +1,48 @@
 import React from "react";
+import { connect } from "react-redux";
+import { compose } from "recompose";
+
 import getPokemons from "../core/getPokemons";
+import {
+  fetchPokemons,
+  fetchPokemonsSuccess,
+  fetchPokemonsError,
+  loadingSelector,
+  pokemonsSelector,
+} from "../redux/pokemons";
 
-const withPokemons = Component =>
+const withPokemons = connect(
+  state => ({
+    loading: loadingSelector(state),
+    pokemons: pokemonsSelector(state),
+  }),
+  {
+    fetchPokemons,
+    fetchPokemonsSuccess,
+    fetchPokemonsError,
+  }
+);
+
+const withPokemonsFetch = Component =>
   class extends React.Component {
-    constructor(props) {
-      super(props);
-      this.state = {
-        pokemons: [],
-      };
-    }
-
-    componentWillMount() {
-      getPokemons({ limit: 151 }).then(pokemons =>
-        this.setState({
-          pokemons: pokemons.map((pokemon, idx) => ({
+    async componentDidMount() {
+      this.props.fetchPokemons();
+      try {
+        const pokemons = await getPokemons({ limit: 151 });
+        this.props.fetchPokemonsSuccess(
+          pokemons.map((pokemon, idx) => ({
             id: idx + 1,
             name: pokemon.name,
             image: `https://assets.pokemon.com/assets/cms2/img/pokedex/full/${pad(idx + 1, 3)}.png`,
-          })),
-        })
-      );
+          }))
+        );
+      } catch (e) {
+        this.props.fetchPokemonsError(e.message);
+      }
     }
 
     render() {
-      const { pokemons } = this.state;
-
-      return (
-        <Component
-          pokemons={pokemons}
-          // Passthrough props
-          {...this.props}
-        />
-      );
+      return <Component {...this.props} />;
     }
   };
 
@@ -40,4 +51,8 @@ function pad(n, width, z) {
   n = n + "";
   return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
 }
-export default withPokemons;
+
+export default compose(
+  withPokemons,
+  withPokemonsFetch
+);

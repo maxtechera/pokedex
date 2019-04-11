@@ -93,7 +93,7 @@ const Logo = styled.img`
 `;
 
 const mapStateToProps = state => ({
-  trainer: state.trainer,
+  trainer: state.auth.trainer,
 });
 
 export default connect(mapStateToProps)(withLogin(Pokedex));

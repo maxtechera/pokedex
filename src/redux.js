@@ -1,4 +1,5 @@
-import { createStore } from "redux";
+import { createStore, combineReducers } from "redux";
+import { reducer as pokemonsReducer } from "./redux/pokemons";
 
 const initialState = {
   trainer: null,
@@ -16,7 +17,9 @@ export const logout = () => ({
   type: LOGOUT,
 });
 
-export const reducer = (state = initialState, action) => {
+export const trainerSelector = state => state.auth.trainer;
+
+export const authReducer = (state = initialState, action) => {
   if (action.type === LOGIN) {
     return {
       ...state,
@@ -31,6 +34,11 @@ export const reducer = (state = initialState, action) => {
   }
   return state;
 };
+
+const reducer = combineReducers({
+  auth: authReducer,
+  pokemons: pokemonsReducer,
+});
 
 export const store = createStore(
   reducer,
