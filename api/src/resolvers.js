@@ -2,6 +2,21 @@ const getPokemons = require('./getPokemons');
 const getPokemon = require('./getPokemon');
 
 const resolvers = {
+  Mutation: {
+    login: (parent, args, ctx) => {
+      return ctx.db.upsertUser({
+        where: {
+          name: args.name,
+        },
+        update: {
+          name: args.name,
+        },
+        create: {
+          name: args.name,
+        },
+      });
+    },
+  },
   Query: {
     pokemons: (_, { limit }) =>
       getPokemons({ limit }).then(pokemons =>
