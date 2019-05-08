@@ -1,5 +1,9 @@
+const getPokemons = require('./getPokemons');
+
 const resolvers = {
-  Query: {},
+  Query: {
+    pokemons: (_, { limit }) => getPokemons({ limit }),
+  },
 };
 
 module.exports = {
