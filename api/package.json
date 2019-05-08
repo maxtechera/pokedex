@@ -1,0 +1,16 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "prisma": "cd prisma && prisma",
+    "start": "nodemon src/index.js localhost 4000"
+  },
+  "dependencies": {
+    "apollo-server": "^2.5.0",
+    "graphql": "^14.3.0",
+    "node-fetch": "^2.5.0",
+    "nodemon": "^1.19.0"
+  }
+}
