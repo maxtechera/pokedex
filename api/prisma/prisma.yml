@@ -1,0 +1,6 @@
+endpoint: https://us1.prisma.sh/maximiliano-techera-e8c0e0/pokedex-api/dev
+datamodel: datamodel.prisma
+
+generate:
+  - generator: javascript-client
+    output: ./generated/prisma-client/

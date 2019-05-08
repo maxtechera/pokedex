@@ -8,10 +8,22 @@ const typeDefs = gql`
     description: String
     imageUrl: String!
   }
+  type User {
+    id: ID!
+    name: String!
+    password: String
+    favoritePokemons: [Pokemon]
+    favoritePokemonIds: [String]
+  }
 
   type Query {
     pokemons(limit: Int): [Pokemon!]
     pokemon(id: ID!): Pokemon
+    user(id: ID!): User
+  }
+
+  type Mutation {
+    login(name: String!): User!
   }
 `;
 module.exports = {
