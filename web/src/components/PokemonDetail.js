@@ -1,37 +1,37 @@
 // @flow
-import React from "react";
-import styled from "styled-components";
-import withPokemon from "../core/withPokemon";
-import Logo from "./Logo";
+import React from 'react';
+import styled from 'styled-components';
+import { Query } from 'react-apollo';
+import GET_POKEMON from '../core/GET_POKEMON';
+
+import Logo from './Logo';
 
 type Props = {};
-const PokemonDetail = ({ selectedPokemon, selectedId, language = "es" }: Props) => {
-  console.log("PokemonDetail", selectedId);
-  if (!selectedPokemon) return <Logo />;
-  return (
-    <Container>
-      <PokemonImage
-        src={`https://assets.pokemon.com/assets/cms2/img/pokedex/full/${pad(
-          selectedPokemon.id,
-          3
-        )}.png`}
-      />
-      <Row>
-        <Name>{selectedPokemon.name}</Name>
-        <Number>{`# ${selectedPokemon.id}`}</Number>
-      </Row>
-      <Row>
-        <Description>
-          {selectedPokemon.flavor_text_entries.find(x => x.language.name == language).flavor_text}
-        </Description>
-      </Row>
-    </Container>
-  );
-};
+const PokemonDetail = ({ selectedId }: Props) => (
+  <Query query={GET_POKEMON} variables={{ id: selectedId }}>
+    {({ data, loading, error }) => {
+      if (loading) return <Logo />;
+      if (error) return `Error! ${error.message}`;
+      const { pokemon } = data;
+      return (
+        <Container>
+          <PokemonImage src={pokemon.imageUrl} />
+          <Row>
+            <Name>{pokemon.name}</Name>
+            <Number>{`# ${pokemon.id}`}</Number>
+          </Row>
+          <Row>
+            <Description>{pokemon.description}</Description>
+          </Row>
+        </Container>
+      );
+    }}
+  </Query>
+);
 
 function pad(n, width, z) {
-  z = z || "0";
-  n = n + "";
+  z = z || '0';
+  n = n + '';
   return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
 }
 const Name = styled.h2`
@@ -69,4 +69,4 @@ const Row = styled.div`
   justify-content: space-between;
   margin-bottom: 8px;
 `;
-export default withPokemon(PokemonDetail);
+export default PokemonDetail;

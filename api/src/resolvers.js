@@ -17,7 +17,7 @@ const resolvers = {
     description: p =>
       p.flavor_text_entries
         ? p.flavor_text_entries.find(x => x.language.name == 'es').flavor_text
-        : '',
+        : null,
   },
 };
 

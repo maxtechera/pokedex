@@ -11,7 +11,7 @@ const typeDefs = gql`
 
   type Query {
     pokemons(limit: Int): [Pokemon!]
-    pokemon(id: Int!): Pokemon
+    pokemon(id: ID!): Pokemon
   }
 `;
 module.exports = {
