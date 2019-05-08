@@ -24,8 +24,10 @@ const typeDefs = gql`
 
   type Mutation {
     login(name: String!): User!
+    addToFavorite(userId: ID!, pokemonId: ID!): User
   }
 `;
+
 module.exports = {
   typeDefs,
 };

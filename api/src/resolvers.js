@@ -16,6 +16,19 @@ const resolvers = {
         },
       });
     },
+    addToFavorite: async (parent, args, ctx) => {
+      const user = await ctx.db.user({ id: args.userId });
+      return ctx.db.updateUser({
+        where: {
+          id: args.userId, //Better if taken from headers
+        },
+        data: {
+          favoritePokemonIds: {
+            set: [...user.favoritePokemonIds, args.pokemonId],
+          },
+        },
+      });
+    },
   },
   Query: {
     pokemons: (_, { limit }) =>
