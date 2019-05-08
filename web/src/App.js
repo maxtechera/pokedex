@@ -1,20 +1,24 @@
-import React, { Component } from "react";
-import styled from "styled-components";
-import Pokedex from "./components/Pokedex";
+import React, { Component } from 'react';
+import styled from 'styled-components';
+import Pokedex from './components/Pokedex';
+import { client } from './apollo';
+import { ApolloProvider } from 'react-apollo';
 
-import { Provider } from "react-redux";
+import { Provider } from 'react-redux';
 
-import "./App.css";
-import { store } from "./redux";
+import './App.css';
+import { store } from './redux';
 
 class App extends Component {
   render() {
     return (
-      <Provider store={store}>
-        <Container>
-          <Pokedex />
-        </Container>
-      </Provider>
+      <ApolloProvider client={client}>
+        <Provider store={store}>
+          <Container>
+            <Pokedex />
+          </Container>
+        </Provider>
+      </ApolloProvider>
     );
   }
 }
