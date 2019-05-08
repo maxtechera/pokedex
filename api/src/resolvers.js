@@ -31,13 +31,7 @@ const resolvers = {
     },
   },
   Query: {
-    pokemons: (_, { limit }) =>
-      getPokemons({ limit }).then(pokemons =>
-        pokemons.map((p, idx) => ({
-          ...p,
-          id: idx + 1,
-        })),
-      ),
+    pokemons: (_, { limit }) => getPokemons({ limit }),
     pokemon: (_, { id }) => getPokemon({ id }),
   },
   Pokemon: {
@@ -46,6 +40,12 @@ const resolvers = {
       p.flavor_text_entries
         ? p.flavor_text_entries.find(x => x.language.name == 'es').flavor_text
         : null,
+  },
+  User: {
+    favoritePokemons: async (user, args, ctx) => {
+      const pokemons = await getPokemons();
+      return pokemons.filter(p => user.favoritePokemonIds.includes(p.id.toString()));
+    },
   },
 };
 
