@@ -3,4 +3,4 @@ const getPokemons = ({ limit = 151 } = {}) =>
     .then(res => res.json())
     .then(response => response.results);
 
-export default getPokemons;
+module.exports = getPokemons;
