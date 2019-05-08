@@ -16,18 +16,19 @@ const resolvers = {
         },
       });
     },
-    addToFavorite: async (parent, args, ctx) => {
-      const user = await ctx.db.user({ id: args.userId });
-      return ctx.db.updateUser({
-        where: {
-          id: args.userId, //Better if taken from headers
-        },
-        data: {
-          favoritePokemonIds: {
-            set: [...user.favoritePokemonIds, args.pokemonId],
+    addToFavorite: (parent, args, ctx) => {
+      ctx.db.user({ id: args.userId }).then(user =>
+        ctx.db.updateUser({
+          where: {
+            id: args.userId, //Better if taken from headers
           },
-        },
-      });
+          data: {
+            favoritePokemonIds: {
+              set: [...user.favoritePokemonIds, args.pokemonId],
+            },
+          },
+        }),
+      );
     },
   },
   Query: {
@@ -42,9 +43,10 @@ const resolvers = {
         : null,
   },
   User: {
-    favoritePokemons: async (user, args, ctx) => {
-      const pokemons = await getPokemons();
-      return pokemons.filter(p => user.favoritePokemonIds.includes(p.id.toString()));
+    favoritePokemons: (user, args, ctx) => {
+      return getPokemons().then(pokemons =>
+        pokemons.filter(p => user.favoritePokemonIds.includes(p.id.toString())),
+      );
     },
   },
 };

@@ -15,6 +15,4 @@ const server = new ApolloServer({
   },
 });
 
-server.listen({ port: process.env.PORT }, () => {
-  console.log('Server rocking on PORT', process.env.PORT);
-});
+module.exports = server.createHandler();

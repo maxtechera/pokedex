@@ -8,13 +8,13 @@ import { logout } from '../redux';
 import Logo from './Logo';
 
 type Props = {};
-const PokemonList = ({ doLogout, pokemons = [], selectedId, setSelectedId }: Props) => {
+const PokemonList = ({ doLogout, selectedId, setSelectedId }: Props) => {
   return (
     <Query query={GET_POKEMONS}>
-      {({ loading, error, data }) =>
-        loading ? (
-          <Logo />
-        ) : (
+      {({ loading, error, data }) => {
+        if (error) return `Error! ${error.message}`;
+        if (loading) return <Logo />;
+        return (
           <Container>
             <button onClick={doLogout}>Logout</button>
             <List>
@@ -30,8 +30,8 @@ const PokemonList = ({ doLogout, pokemons = [], selectedId, setSelectedId }: Pro
               ))}
             </List>
           </Container>
-        )
-      }
+        );
+      }}
     </Query>
   );
 };

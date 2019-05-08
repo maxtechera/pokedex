@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "apollo-server": "^2.5.0",
+    "apollo-server-micro": "^2.5.0",
     "graphql": "^14.3.0",
     "node-fetch": "^2.5.0",
     "nodemon": "^1.19.0",
