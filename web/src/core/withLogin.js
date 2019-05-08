@@ -1,21 +1,20 @@
-import React from "react";
-import { connect } from "react-redux";
-import { compose } from "recompose";
-import { login } from "../redux";
+import React from 'react';
+import { connect } from 'react-redux';
+import { compose } from 'recompose';
+import { login } from '../redux';
 
 const withLogin = Component =>
   class extends React.Component {
     constructor(props) {
       super(props);
       this.state = {
-        name: "",
-        password: "",
+        name: '',
+        password: '',
         selectedId: 1,
       };
     }
     render() {
       const { name, password, selectedId } = this.state;
-      console.log("Selected", selectedId);
       return (
         <Component
           name={name}
@@ -25,8 +24,7 @@ const withLogin = Component =>
           setPassword={password => this.setState({ password })}
           setSelectedId={selectedId => this.setState({ selectedId })}
           doLogin={() => {
-            if (name == "Ash") {
-              console.log("Success!!");
+            if (name == 'Ash') {
               this.props.dispatchLogin({
                 name,
               });
@@ -46,7 +44,7 @@ const mapDispatchToProps = dispatch => ({
 export default compose(
   connect(
     null,
-    mapDispatchToProps
+    mapDispatchToProps,
   ),
-  withLogin
+  withLogin,
 );

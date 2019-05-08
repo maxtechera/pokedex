@@ -5,16 +5,18 @@ import { Query } from 'react-apollo';
 import GET_POKEMONS from '../core/GET_POKEMONS';
 import { connect } from 'react-redux';
 import { logout } from '../redux';
+import Logo from './Logo';
+
 type Props = {};
 const PokemonList = ({ doLogout, pokemons = [], selectedId, setSelectedId }: Props) => {
   return (
-    <Container>
-      <button onClick={doLogout}>Logout</button>
-      <Query query={GET_POKEMONS}>
-        {({ loading, error, data }) =>
-          loading ? (
-            'Loading...'
-          ) : (
+    <Query query={GET_POKEMONS}>
+      {({ loading, error, data }) =>
+        loading ? (
+          <Logo />
+        ) : (
+          <Container>
+            <button onClick={doLogout}>Logout</button>
             <List>
               {data.pokemons.map(pokemon => (
                 <Item
@@ -27,10 +29,10 @@ const PokemonList = ({ doLogout, pokemons = [], selectedId, setSelectedId }: Pro
                 </Item>
               ))}
             </List>
-          )
-        }
-      </Query>
-    </Container>
+          </Container>
+        )
+      }
+    </Query>
   );
 };
 

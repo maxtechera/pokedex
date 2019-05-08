@@ -1,12 +1,13 @@
-import { createStore, combineReducers } from "redux";
-import { reducer as pokemonsReducer } from "./redux/pokemons";
+import { createStore, combineReducers } from 'redux';
 
 const initialState = {
-  trainer: null,
+  trainer: {
+    name: 'Ash',
+  },
 };
 
-const LOGIN = "Auth/LOGIN";
-const LOGOUT = "Auth/LOGOUT";
+const LOGIN = 'Auth/LOGIN';
+const LOGOUT = 'Auth/LOGOUT';
 
 export const login = trainer => ({
   type: LOGIN,
@@ -37,11 +38,10 @@ export const authReducer = (state = initialState, action) => {
 
 const reducer = combineReducers({
   auth: authReducer,
-  pokemons: pokemonsReducer,
 });
 
 export const store = createStore(
   reducer,
   {},
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
 );
