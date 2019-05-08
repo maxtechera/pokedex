@@ -1,26 +1,35 @@
 // @flow
-import React from "react";
-import styled from "styled-components";
-import withPokemons from "../core/withPokemons";
-import { connect } from "react-redux";
-import { logout } from "../redux";
+import React from 'react';
+import styled from 'styled-components';
+import { Query } from 'react-apollo';
+import GET_POKEMONS from '../core/GET_POKEMONS';
+import { connect } from 'react-redux';
+import { logout } from '../redux';
 type Props = {};
 const PokemonList = ({ doLogout, pokemons = [], selectedId, setSelectedId }: Props) => {
   return (
     <Container>
       <button onClick={doLogout}>Logout</button>
-      <List>
-        {pokemons.map(pokemon => (
-          <Item
-            selected={selectedId == pokemon.id}
-            key={pokemon.id}
-            onClick={() => setSelectedId(pokemon.id)}
-          >
-            <Image src={pokemon.image} />
-            <Name>{pokemon.name}</Name>
-          </Item>
-        ))}
-      </List>
+      <Query query={GET_POKEMONS}>
+        {({ loading, error, data }) =>
+          loading ? (
+            'Loading...'
+          ) : (
+            <List>
+              {data.pokemons.map(pokemon => (
+                <Item
+                  selected={selectedId == pokemon.id}
+                  key={pokemon.id}
+                  onClick={() => setSelectedId(pokemon.id)}
+                >
+                  <Image src={pokemon.imageUrl} />
+                  <Name>{pokemon.name}</Name>
+                </Item>
+              ))}
+            </List>
+          )
+        }
+      </Query>
     </Container>
   );
 };
@@ -73,5 +82,5 @@ export default connect(
   null,
   dispatch => ({
     doLogout: () => dispatch(logout()),
-  })
-)(withPokemons(PokemonList));
+  }),
+)(PokemonList);
