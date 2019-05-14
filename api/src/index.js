@@ -1,4 +1,4 @@
-const { ApolloServer } = require('apollo-server-micro');
+const { ApolloServer } = require('apollo-server');
 const { resolvers } = require('./resolvers');
 const { typeDefs } = require('./schema');
 const { prisma } = require('../prisma/generated/prisma-client');
@@ -15,6 +15,6 @@ const server = new ApolloServer({
   },
 });
 
-server.listen({ port: process.env.PORT }, () => {
-  console.log('Server rocking on PORT', process.env.PORT);
+server.listen().then(({ url }) => {
+  console.log('Server rocking on PORT', url);
 });
