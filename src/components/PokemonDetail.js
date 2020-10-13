@@ -3,13 +3,27 @@ import React from "react";
 import styled from "styled-components";
 
 type Props = {};
-const PokemonDetail = ({  }: Props) => {
+
+const fetchPokemon = ({ id }) =>
+  fetch("https://pokeapi.co/api/v2/pokemon/?limit=150", {
+    method: "GET",
+    headers: {}
+  }).then(res => res.json());
+
+const PokemonDetail = ({ pokemonId }: Props) => {
+  // const [pokemon, setPokemon] = React.useState();
+  // React.useEffect(() => {
+  //   fetchPokemon({ id: pokemonId }).then(response => {
+  //     console.log("Result", response);
+  //     setPokemon(response);
+  //   });
+  // }, [pokemonId]);
   const pokemon = {
     id: 1,
     name: "Bulbasur",
     image: "https://assets.pokemon.com/assets/cms2/img/pokedex/full/002.png",
     description:
-      "Bulbasaur can be seen napping in bright sunlight. There is a seed on its back. By soaking up the sun's rays, the seed grows progressively larger.",
+      "Bulbasaur can be seen napping in bright sunlight. There is a seed on its back. By soaking up the sun's rays, the seed grows progressively larger."
   };
   return (
     <Container>

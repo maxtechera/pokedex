@@ -2,28 +2,61 @@
 import React from "react";
 import styled from "styled-components";
 
-type Props = {};
-const PokemonDetail = ({  }: Props) => (
-  <Container>
-    <Inner>
-      <Title>React Pokédex</Title>
-      <Input placeholder="Trainer name" />
-      <Input placeholder="Password" type="password" />
-      <Button>Login</Button>
-    </Inner>
-  </Container>
-);
+const Login = ({ setUser }) => {
+  const [credentials, setCredentials] = React.useState({
+    user: "",
+    password: ""
+  });
+
+  const onLogin = () => {
+    const { user, password } = credentials;
+    if (user === "john" && password === "1234") {
+      setUser({
+        name: user
+      });
+    }
+  };
+  return (
+    <Container>
+      <Inner>
+        <Title>React Pokédex</Title>
+        <Input
+          placeholder="Trainer name"
+          onChange={evt =>
+            setCredentials({
+              ...credentials,
+              user: evt.target.value
+            })
+          }
+        />
+        <Input
+          placeholder="Password"
+          type="password"
+          onChange={evt =>
+            setCredentials({
+              ...credentials,
+              password: evt.target.value
+            })
+          }
+        />
+        <Button type="submit" onClick={onLogin}>
+          Login
+        </Button>
+      </Inner>
+    </Container>
+  );
+};
 
 const Container = styled.div`
   width: 100%;
   height: 100%;
   background: #282c34;
   box-shadow: inset 0 0 10px rgb(0, 0, 0, 0.8);
-  border-radius 5px;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 `;
 
 const Title = styled.h1`
@@ -53,7 +86,7 @@ const Input = styled.input`
 
 const Button = styled.button`
   font-size: 18px;
-  width: 100%
+  width: 100%;
   padding: 8px 32px;
   border-radius: 5px;
   border: none;
@@ -61,4 +94,4 @@ const Button = styled.button`
   margin-top: 16px;
 `;
 
-export default PokemonDetail;
+export default Login;

@@ -1,39 +1,28 @@
-// @flow
 import React from "react";
 import styled from "styled-components";
 import Login from "./Login";
 import PokemonDetail from "./PokemonDetail";
 import PokemonList from "./PokemonList";
-import pokemonLogo from "../poke.png";
+import Logo from "./Logo";
 
-type Props = {};
-export const PokedexLogin = ({  }: Props) => (
-  <Container>
-    <LeftContainer>
-      <Login />
-    </LeftContainer>
-    <InnerContainer>
-      <DisplayContainer>
-        <Logo src={pokemonLogo} />
-      </DisplayContainer>
-    </InnerContainer>
-  </Container>
-);
-
-export const Pokedex = ({  }: Props) => (
-  <Container>
-    <LeftContainer>
-      <DisplayContainer>
-        <PokemonList />
-      </DisplayContainer>
-    </LeftContainer>
-    <InnerContainer>
-      <DisplayContainer>
-        <PokemonDetail />
-      </DisplayContainer>
-    </InnerContainer>
-  </Container>
-);
+// https://pokeapi.co/
+export const Pokedex = ({}) => {
+  const [user, setUser] = React.useState({
+    name: "Max"
+  });
+  return (
+    <Container>
+      <LeftContainer>
+        {!user ? <Login setUser={setUser} /> : <PokemonList />}
+      </LeftContainer>
+      <InnerContainer>
+        <DisplayContainer>
+          {!user ? <Logo /> : <PokemonDetail />}
+        </DisplayContainer>
+      </InnerContainer>
+    </Container>
+  );
+};
 
 const Container = styled.div`
   height: 80vh;
@@ -53,12 +42,12 @@ const DisplayContainer = styled.div`
   flex-direction: column;
   background: #282c34;
   box-shadow: inset 0 0 10px rgb(0, 0, 0, 0.8);
-  border-radius 5px;
+  border-radius: 5px;
   padding: 16px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  overflow:auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: auto;
 `;
 const InnerContainer = styled.div`
   height: 100%;
@@ -69,17 +58,12 @@ const InnerContainer = styled.div`
   justify-content: center;
   align-items: center;
   padding: 64px 32px;
-  border-radius: 10px;
+  border-radius: 0px 10px 0px 0px;
 `;
 
 const LeftContainer = styled(InnerContainer)`
   background: #bf3027;
-`;
-
-const Logo = styled.img`
-  width: 200px;
-  opacity: 0.5;
-  margin: auto;
+  border-radius: 10px 0px 0px 10px;
 `;
 
 export default Pokedex;
