@@ -1,7 +1,7 @@
 // @flow
 import React from "react";
-import styled from "styled-components";
-
+import styled, { css } from "styled-components";
+import { Link, useRouteMatch } from "react-router-dom";
 type Props = {};
 
 const fetchPokemons = () =>
@@ -12,6 +12,7 @@ const fetchPokemons = () =>
 
 const PokemonList = ({  }: Props) => {
   const [pokemons, setPokemons] = React.useState([]);
+  const match = useRouteMatch("/pokemon/:pokemonId");
   React.useEffect(() => {
     fetchPokemons().then(response => {
       const { results } = response;
@@ -29,10 +30,15 @@ const PokemonList = ({  }: Props) => {
     <DisplayContainer>
       <List>
         {pokemons.map(pokemon => (
-          <Item key={pokemon.id}>
-            <Image src={pokemon.image} />
-            <Name>{pokemon.name}</Name>
-          </Item>
+          <Link to={`/pokemon/${pokemon.id}`}>
+            <Item
+              key={pokemon.id}
+              selected={pokemon.id == match.params.pokemonId}
+            >
+              <Image src={pokemon.image} />
+              <Name>{pokemon.name}</Name>
+            </Item>
+          </Link>
         ))}
       </List>
     </DisplayContainer>
@@ -60,6 +66,11 @@ const Item = styled.div`
   width: 100%;
   border-radius: 5px;
   padding: 8px;
+  ${props =>
+    props.selected &&
+    css`
+      background: rgba(255, 255, 255, 0.4);
+    `}
 `;
 
 const Image = styled.img`

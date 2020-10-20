@@ -4,6 +4,7 @@ import Login from "./Login";
 import PokemonDetail from "./PokemonDetail";
 import PokemonList from "./PokemonList";
 import Logo from "./Logo";
+import { Route } from "react-router-dom";
 
 // https://pokeapi.co/
 export const Pokedex = ({}) => {
@@ -17,7 +18,16 @@ export const Pokedex = ({}) => {
       </LeftContainer>
       <InnerContainer>
         <DisplayContainer>
-          {!user ? <Logo /> : <PokemonDetail />}
+          <Route
+            path="/pokemon/:pokemonId"
+            render={routeProps =>
+              !user ? (
+                <Logo />
+              ) : (
+                <PokemonDetail pokemonId={routeProps.match.params.pokemonId} />
+              )
+            }
+          />
         </DisplayContainer>
       </InnerContainer>
     </Container>

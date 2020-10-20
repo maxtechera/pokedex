@@ -4,40 +4,51 @@ import styled from "styled-components";
 
 type Props = {};
 
+const getImageURL = id =>
+  `https://assets.pokemon.com/assets/cms2/img/pokedex/full/${`${id}`.padStart(
+    3,
+    "0"
+  )}.png`;
+
 const fetchPokemon = ({ id }) =>
-  fetch("https://pokeapi.co/api/v2/pokemon/?limit=150", {
+  fetch(`https://pokeapi.co/api/v2/pokemon-species/${id}/`, {
     method: "GET",
     headers: {}
-  }).then(res => res.json());
+  })
+    .then(res => res.json())
+    .then(pokemon => ({
+      id,
+      name: pokemon.name,
+      image: getImageURL(id),
+      description: pokemon.flavor_text_entries.find(
+        ({ language: { name } }) => name === "en"
+      ).flavor_text
+    }));
 
 const PokemonDetail = ({ pokemonId }: Props) => {
-  // const [pokemon, setPokemon] = React.useState();
-  // React.useEffect(() => {
-  //   fetchPokemon({ id: pokemonId }).then(response => {
-  //     console.log("Result", response);
-  //     setPokemon(response);
-  //   });
-  // }, [pokemonId]);
-  const pokemon = {
-    id: 1,
-    name: "Bulbasur",
-    image: "https://assets.pokemon.com/assets/cms2/img/pokedex/full/002.png",
-    description:
-      "Bulbasaur can be seen napping in bright sunlight. There is a seed on its back. By soaking up the sun's rays, the seed grows progressively larger."
-  };
+  const [pokemon, setPokemon] = React.useState();
+
+  React.useEffect(() => {
+    fetchPokemon({ id: pokemonId }).then(response => {
+      setPokemon(response);
+    });
+  }, [pokemonId]);
+
+  if (!pokemon) return null;
   return (
     <Container>
-      <PokemonImage src={pokemon.image} />
+      <PokemonImage src={pokemon?.image} />
       <Row>
-        <Name>{pokemon.name}</Name>
-        <Number>{`# ${pokemon.id}`}</Number>
+        <Name>{pokemon?.name}</Name>
+        <Number>{`# ${pokemon?.id}`}</Number>
       </Row>
       <Row>
-        <Description>{pokemon.description}</Description>
+        <Description>{pokemon?.description}</Description>
       </Row>
     </Container>
   );
 };
+
 const Name = styled.h2`
   font-size: 30px;
   color: white;

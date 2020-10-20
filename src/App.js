@@ -1,14 +1,17 @@
 import React, { Component } from "react";
 import styled from "styled-components";
+import { BrowserRouter as Router } from "react-router-dom";
 import Pokedex from "./components/Pokedex";
 import "./App.css";
 
 class App extends Component {
   render() {
     return (
-      <Container>
-        <Pokedex />
-      </Container>
+      <Router>
+        <Container>
+          <Pokedex />
+        </Container>
+      </Router>
     );
   }
 }
