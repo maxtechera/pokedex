@@ -33,7 +33,7 @@ const PokemonList = ({  }: Props) => {
           <Link to={`/pokemon/${pokemon.id}`}>
             <Item
               key={pokemon.id}
-              selected={pokemon.id == match.params.pokemonId}
+              selected={pokemon.id == match?.params?.pokemonId}
             >
               <Image src={pokemon.image} />
               <Name>{pokemon.name}</Name>

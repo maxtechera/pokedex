@@ -8,9 +8,7 @@ import { Route } from "react-router-dom";
 
 // https://pokeapi.co/
 export const Pokedex = ({}) => {
-  const [user, setUser] = React.useState({
-    name: "Max"
-  });
+  const [user, setUser] = React.useState();
   return (
     <Container>
       <LeftContainer>
