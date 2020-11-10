@@ -5,4 +5,4 @@ const TOKEN_SECRET = "supersecrettokenwhatever";
 export const generateToken = ({ _id, email, username }) =>
   jwt.sign({ _id, email, username }, TOKEN_SECRET);
 
-export const getUserFromToken = token => jwt.decode(token, TOKEN_SECRET);
+export const getUserFromToken = token => jwt.verify(token, TOKEN_SECRET);

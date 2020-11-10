@@ -1,21 +1,43 @@
 // @flow
+import { gql, useMutation } from "@apollo/client";
 import React from "react";
 import styled from "styled-components";
+import { useToken } from "../AuthProvider";
+import { USER_QUERY } from "./Pokedex";
+
+const SIGN_IN_MUTATION = gql`
+  mutation SignIn($input: SignInInput!) {
+    signIn(input: $input) {
+      username
+      token
+    }
+  }
+`;
 
 const Login = ({ setUser }) => {
+  const { setToken } = useToken();
   const [credentials, setCredentials] = React.useState({
     user: "",
     password: ""
   });
+  const [doSignInMutation] = useMutation(SIGN_IN_MUTATION);
 
-  const onLogin = () => {
-    const { user, password } = credentials;
-    if (user === "john" && password === "1234") {
-      setUser({
-        name: user
-      });
-    }
+  const onLogin = async () => {
+    const { username, password } = credentials;
+    const { data } = await doSignInMutation({
+      variables: {
+        input: {
+          username,
+          password
+        }
+      }
+    });
+    const {
+      signIn: { token }
+    } = data;
+    setToken(token);
   };
+
   return (
     <Container>
       <Inner>
@@ -25,7 +47,7 @@ const Login = ({ setUser }) => {
           onChange={evt =>
             setCredentials({
               ...credentials,
-              user: evt.target.value
+              username: evt.target.value
             })
           }
         />

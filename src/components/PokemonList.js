@@ -2,30 +2,21 @@
 import React from "react";
 import styled, { css } from "styled-components";
 import { Link, useRouteMatch } from "react-router-dom";
-type Props = {};
+import { gql, useQuery } from "@apollo/client";
 
-const fetchPokemons = () =>
-  fetch("https://pokeapi.co/api/v2/pokemon/?limit=150", {
-    method: "GET",
-    headers: {}
-  }).then(res => res.json());
+const POKEMONS_QUERY = gql`
+  query AllPokemons {
+    pokemons {
+      id
+      name
+      image
+    }
+  }
+`;
 
-const PokemonList = ({  }: Props) => {
-  const [pokemons, setPokemons] = React.useState([]);
+const PokemonList = ({}) => {
   const match = useRouteMatch("/pokemon/:pokemonId");
-  React.useEffect(() => {
-    fetchPokemons().then(response => {
-      const { results } = response;
-      setPokemons(
-        results.map((item, idx) => ({
-          id: idx + 1,
-          name: item.name,
-          image: `https://assets.pokemon.com/assets/cms2/img/pokedex/full/${`${idx +
-            1}`.padStart(3, "0")}.png`
-        }))
-      );
-    });
-  }, []);
+  const { data: { pokemons = [] } = {} } = useQuery(POKEMONS_QUERY);
   return (
     <DisplayContainer>
       <List>

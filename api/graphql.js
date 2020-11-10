@@ -10,15 +10,29 @@ const server = new ApolloServer({
   //   context: {
   //       "API_KEY": '',
   //   },
-  context: ({ req }) => {
-    // Get the user token from the headers.
-    const token = req.headers.authorization || "";
+  context: ({ req, res }) => {
+    try {
+      // Get the user token from the headers.
+      const token = req.headers.authorization || req.cookies.token || "";
 
-    // try to retrieve a user with the token
-    const user = getUserFromToken(token);
+      // try to retrieve a user with the token
+      const user = getUserFromToken(token);
 
-    // add the user to the context
-    return { user, API_KEY: "asdf" };
+      // add the user to the context
+      return {
+        user,
+        API_KEY: "asdf",
+        // expose the cookie helper in the GraphQL context object
+        cookie: res.cookie
+      };
+    } catch (error) {
+      console.log("Error", error);
+    }
+    return {
+      API_KEY: "asdf",
+      // expose the cookie helper in the GraphQL context object
+      cookie: res.cookie
+    };
   }
 });
 

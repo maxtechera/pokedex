@@ -22,7 +22,7 @@ const signInResolver = async (
   info
 ) => {
   const user = await User.findOne({ username });
-  if (user && Bcrypt.compareSync(password, user.password)) {
+  if (user && Bcrypt.compareSync(password, user.password || "")) {
     return user;
   }
 };
@@ -59,7 +59,16 @@ export const resolvers = {
   },
   User: {
     id: user => user._id,
-    token: user => generateToken(user),
+    token: (user, args, ctx, info) => {
+      const token = generateToken(user);
+
+      // ctx.cookie("token", token, {
+      //   expires: new Date(Date.now() + 9999999999),
+      //   secure: true,
+      //   sameSite: "None"
+      // });
+      return token;
+    },
     favorites: async user => {
       // Return favorite pokemons
       // const favorites = await PokemonFavorites.find({ userId: user.id });

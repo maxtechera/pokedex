@@ -5,14 +5,38 @@ import PokemonDetail from "./PokemonDetail";
 import PokemonList from "./PokemonList";
 import Logo from "./Logo";
 import { Route } from "react-router-dom";
+import { gql, useQuery } from "@apollo/client";
+import { useToken } from "../AuthProvider";
+
+export const USER_QUERY = gql`
+  query User {
+    user {
+      id
+      username
+      token
+      favorites {
+        id
+        name
+      }
+    }
+  }
+`;
 
 // https://pokeapi.co/
-export const Pokedex = ({}) => {
-  const [user, setUser] = React.useState();
+export const Pokedex = () => {
+  const { token } = useToken();
+  const { data, loading, refetch } = useQuery(USER_QUERY);
+  React.useEffect(() => {
+    refetch();
+  }, [refetch, token]);
+  const { user } = data || {};
+
   return (
     <Container>
       <LeftContainer>
-        {!user ? <Login setUser={setUser} /> : <PokemonList />}
+        {(loading && token) || user ? <PokemonList /> : null}
+        {loading && !token ? <Logo /> : null}
+        {!loading && !user ? <Login /> : null}
       </LeftContainer>
       <InnerContainer>
         <DisplayContainer>

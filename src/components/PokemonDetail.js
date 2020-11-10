@@ -1,40 +1,26 @@
 // @flow
+import { gql, useQuery } from "@apollo/client";
 import React from "react";
 import styled from "styled-components";
 
-type Props = {};
+const POKEMON_QUERY = gql`
+  query PokemonById($id: ID!) {
+    pokemon(id: $id) {
+      id
+      name
+      description
+      image
+    }
+  }
+`;
 
-const getImageURL = id =>
-  `https://assets.pokemon.com/assets/cms2/img/pokedex/full/${`${id}`.padStart(
-    3,
-    "0"
-  )}.png`;
-
-const fetchPokemon = ({ id }) =>
-  fetch(`https://pokeapi.co/api/v2/pokemon-species/${id}/`, {
-    method: "GET",
-    headers: {}
-  })
-    .then(res => res.json())
-    .then(pokemon => ({
-      id,
-      name: pokemon.name,
-      image: getImageURL(id),
-      description: pokemon.flavor_text_entries.find(
-        ({ language: { name } }) => name === "en"
-      ).flavor_text
-    }));
-
-const PokemonDetail = ({ pokemonId }: Props) => {
-  const [pokemon, setPokemon] = React.useState();
-
-  React.useEffect(() => {
-    fetchPokemon({ id: pokemonId }).then(response => {
-      setPokemon(response);
-    });
-  }, [pokemonId]);
-
-  if (!pokemon) return null;
+const PokemonDetail = ({ pokemonId }) => {
+  const { data: { pokemon } = {} } = useQuery(POKEMON_QUERY, {
+    variables: {
+      id: pokemonId
+    }
+  });
+  if (pokemon) return null;
   return (
     <Container>
       <PokemonImage src={pokemon?.image} />
