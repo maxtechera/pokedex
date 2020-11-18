@@ -20,7 +20,7 @@ const PokemonDetail = ({ pokemonId }) => {
       id: pokemonId
     }
   });
-  if (pokemon) return null;
+  if (!pokemon) return null;
   return (
     <Container>
       <PokemonImage src={pokemon?.image} />

@@ -13,6 +13,7 @@
     "graphql": "^15.4.0",
     "jsonwebtoken": "^8.5.1",
     "micro": "^9.3.4",
+    "micro-cors": "^0.1.1",
     "mongoose": "^5.10.13",
     "node-fetch": "^2.6.1",
     "react": "^16.8.6",
